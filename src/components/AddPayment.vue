@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
   name: "AddPayment",
   data() {
@@ -29,6 +30,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["addDataToPaymentsList"]),
     onClick() {
       const { category, value } = this;
       const data = {
@@ -38,9 +40,6 @@ export default {
       };
       console.log("add", data);
       this.$emit("addNewPayment", data);
-      this.date = "";
-      this.category = "";
-      this.value = null;
     },
   },
   computed: {
@@ -51,6 +50,29 @@ export default {
       const y = today.getFullYear();
       return `${d}.${m}.${y}`;
     },
+  },
+  mounted() {
+    document.addEventListener("DOMContentLoaded", () => {
+      const categoryURL = this.$route.params.categoryURL;
+      const valueURL = this.$route.query.value;
+      console.log(categoryURL, valueURL);
+      if (categoryURL != undefined || valueURL != undefined) {
+        this.$emit("URL");
+        if (categoryURL == undefined && valueURL != undefined) {
+          this.value = valueURL;
+          this.date = this.getCurrentDate;
+        } else if (categoryURL != undefined && valueURL == undefined) {
+          this.category = categoryURL;
+          this.date = this.getCurrentDate;
+        } else if (categoryURL != undefined && valueURL != undefined) {
+          this.category = categoryURL;
+          this.value = valueURL;
+          this.date = this.getCurrentDate;
+          this.onClick();
+          // здесь ещё можно было бы отправить информацию о новом платеже на сервер, которого пока нет :(
+        }
+      }
+    });
   },
 };
 </script>

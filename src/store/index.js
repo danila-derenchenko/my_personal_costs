@@ -22,9 +22,8 @@ export default new Vuex.Store({
     },
 
     actions: { // асинхронные мутации
-        fetchData({ commit }, page) {
-            console.log(page);
-            return new Promise((resolve) => {
+        fetchData({ commit }) {
+            /* return new Promise((resolve) => {
                 // здесь был setTimeout на 1 секунду
                 let items = [
                     { id: 1, date: "20.03.2020", category: "Food", value: 169 },
@@ -35,6 +34,21 @@ export default new Vuex.Store({
                     { id: 6, date: "25.03.2020", category: "Food", value: 200 }
 
                 ]
+                resolve(items)
+
+            }).then(res => {
+                commit("setPaymentListData", res)
+            }) */
+            return new Promise((resolve) => {
+                // здесь был setTimeout на 1 секунду
+                let items = [];
+                for (let id = 1; id <= 50; id++) {
+                    items.push({
+                        id: id,
+                        date: `${new Date().getDate()}.${new Date().getMonth() + 1}.${new Date().getFullYear()}`,
+                        value: id,
+                    })
+                }
                 resolve(items)
 
             }).then(res => {
