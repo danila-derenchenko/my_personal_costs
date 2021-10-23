@@ -40,7 +40,7 @@ export default {
 
 <style module lang="scss">
 .number_page {
-  width: 400px;
+  width: 390px;
   border: 1px solid darkgray;
   border-radius: 5px;
   display: flex;
