@@ -2,7 +2,8 @@
   <div id="paginate" :class="[$style.number_page]">
     <p @click="onClick('-')" :class="[$style.page]">-</p>
     <p
-      @click="onClick(N)"
+      ref="elements"
+      @click="onClick(N, $event)"
       v-for="N in amounted()"
       :key="N"
       :class="[$style.page]"
@@ -31,8 +32,12 @@ export default {
       this.amount = Math.ceil(this.length / this.n);
       return Math.ceil(this.length / this.n);
     },
-    onClick(p) {
+    onClick(p, evt) {
       this.$emit("paginate", p, this.amount);
+      for (let i of this.$refs.elements) {
+        i.style.color = "black";
+      }
+      evt.target.style.color = "blue";
     },
   },
 };
